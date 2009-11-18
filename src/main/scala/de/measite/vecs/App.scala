@@ -34,7 +34,7 @@ object App extends Application {
       }
     }
     // Step 3: search
-    for (i <- 0 until 10000) {
+    for (i <- 0 until 10) {
       val v = vector(Math.abs(rnd.nextInt) % vector.length)
       var bestMatch : KVector = null
       var bestMatchScore = java.lang.Double.MAX_VALUE
