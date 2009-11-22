@@ -266,6 +266,39 @@ class KVector(
     result
   }
 
+  /**
+   * Geometric distance, the geometric average of components of the
+   * minimum distance vector.
+   */
+  def geometricDistance(that : KVector, zeroUndefined : Boolean) : Double = {
+    var result = 1d
+    var dims = 0
+    val limit = Math.min(this.dimension.length, that.dimension.length)
+    var i = 0
+    while (i < limit) {
+      val l = this.dimension(i)
+      val r = that.dimension(i)
+      if (isNaN(l)) {
+        if (zeroUndefined && !isNaN(r)) { return 0d }
+        // Both NaN, ignore
+      } else {
+        if (zeroUndefined && isNaN(r)) { return 0d }
+        // Both non-NaN
+        result *= Math.abs(l-r)
+        if (result == 0d) { return 0d }
+      }
+    }
+    while (i < this.dimension.length) {
+      if (!isNaN(this.dimension(i))) { return 0d }
+      i += 1
+    }
+    while (i < that.dimension.length) {
+      if (!isNaN(that.dimension(i))) { return 0d }
+      i += 1
+    }
+    result
+  }
+
   def avg(that: KVector) : KVector = {
     val v = this + that
     v *! 0.5d

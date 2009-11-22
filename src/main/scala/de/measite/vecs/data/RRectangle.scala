@@ -93,6 +93,27 @@ class RRectangle(
     result
   }
 
+  def geometricDistance(that : KVector) : Double = {
+    var result = 0d
+    val limit = Math.min(that.dimension.length, low.dimension.length)
+    var i = 0
+    while (i < limit) {
+      val v = that.dimension(i)
+      val l = low.dimension(i)
+      val h = high.dimension(i)
+      if ((!isNaN(v)) && (!isNaN(l))) {
+        result *= {
+          if (v < l) { Math.abs(v - l) } else
+          if (v > h) { Math.abs(v - h) } else
+          { 0d }
+        }
+        if (result == 0d) { return 0d }
+      }
+      i += 1
+    }
+    result
+  }
+
   /**
    * Add another area, return a rectangle containing both areas
    */
