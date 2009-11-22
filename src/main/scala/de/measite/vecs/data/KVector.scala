@@ -287,6 +287,7 @@ class KVector(
         result *= Math.abs(l-r)
         if (result == 0d) { return 0d }
       }
+      i += 1
     }
     while (i < this.dimension.length) {
       if (!isNaN(this.dimension(i))) { return 0d }
