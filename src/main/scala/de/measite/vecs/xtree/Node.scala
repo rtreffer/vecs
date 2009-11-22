@@ -122,9 +122,10 @@ class Node(
   def splitNode() : Unit = {
     if ((splitHistory.left eq null)
     ||  (splitHistory.right eq null)
-    ||  (splitHistory.left.count * 2 < tree.width)
-    ||  (splitHistory.right.count * 2 < tree.width)) {
+    ||  (splitHistory.left.count * 3 < tree.width)
+    ||  (splitHistory.right.count * 3 < tree.width)) {
       // grow :-(
+      // TODO upper grow limit
       val grown = new Array[Node](node.length + tree.width)
       System.arraycopy(node, 0, grown, 0, node.length)
       node = grown
