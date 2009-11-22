@@ -67,6 +67,26 @@ class RRectangle(
         if (v > h) {
           result += (v - h) * (v - h)
         }
+     }
+     i += 1
+    }
+    result
+  }
+
+  def llk(that : KVector, k : Double) : Double = {
+    var result = 0d
+    val limit = Math.min(that.dimension.length, low.dimension.length)
+    var i = 0
+    while (i < limit) {
+      val v = that.dimension(i)
+      val l = low.dimension(i)
+      val h = high.dimension(i)
+      if ((!isNaN(v)) && (!isNaN(l))) {
+        val d =
+          if (v < l) { Math.abs(v - l).asInstanceOf[Double] } else
+          if (v > h) { Math.abs(v - h).asInstanceOf[Double] } else
+          { 0d }
+        result += Math.pow(d, k)
       }
       i += 1
     }

@@ -242,6 +242,30 @@ class KVector(
     result
   }
 
+  /**
+   * Distance function based on the euclid (k=2) and manhatten (k=1) distance.
+   * A nice study about the distance metric in high dimensional spaces
+   * revealed that low values of k work better for high dimensional feature
+   * vectors whereas a value of 2 corresponds to a round sphere.
+   * Low values of k favor a low number of high-difference vectors, whereas
+   * high values of k prefer a smooth distribution.
+   */
+  def llk(that : KVector, k : Double) : Double = {
+    var result = 0d
+    val limit = Math.min(this.dimension.length, that.dimension.length)
+    var i = 0
+    while (i < limit) {
+      val l = this.dimension(i)
+      val r = that.dimension(i)
+      if ((!isNaN(l)) && (!isNaN(r))) {
+        val d = Math.abs(l - r)
+        result += Math.pow(d, k)
+      }
+      i += 1
+    }
+    result
+  }
+
   def avg(that: KVector) : KVector = {
     val v = this + that
     v *! 0.5d
