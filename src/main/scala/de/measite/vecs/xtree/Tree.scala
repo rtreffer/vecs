@@ -18,6 +18,9 @@ class Tree(
 
   def search(key : KVector) : Iterator[Entry] = new NNIterator(key, root)
 
+  def searchGeometric(key : KVector) : Iterator[Entry] =
+    new GeomIterator(key, root)
+
   def search(key : KVector, k : Double) : Iterator[Entry] =
     new LLKIterator(key, k, root)
 
