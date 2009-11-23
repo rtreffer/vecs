@@ -87,7 +87,7 @@ class NNIterator(
       val e = innerQueue.pollFirst
       val tHead = terminals.pollFirst
       if (tHead ne null){
-        if (tHead.compareTo(e.asInstanceOf[QueueEntry[AnyRef]]) < 0d) {
+        if (tHead.compareTo(e.asInstanceOf[QueueEntry[AnyRef]]) < 0) {
           innerQueue.add(e)
           return tHead.element
         } else {
