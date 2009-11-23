@@ -289,13 +289,15 @@ class KVector(
       }
       i += 1
     }
-    while (i < this.dimension.length) {
-      if (!isNaN(this.dimension(i))) { return 0d }
-      i += 1
-    }
-    while (i < that.dimension.length) {
-      if (!isNaN(that.dimension(i))) { return 0d }
-      i += 1
+    if (zeroUndefined) {
+      while (i < this.dimension.length) {
+        if (!isNaN(this.dimension(i))) { return 0d }
+        i += 1
+      }
+      while (i < that.dimension.length) {
+        if (!isNaN(that.dimension(i))) { return 0d }
+        i += 1
+      }
     }
     result
   }
