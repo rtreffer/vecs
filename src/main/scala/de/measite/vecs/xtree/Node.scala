@@ -85,37 +85,46 @@ class Node(
   private def splitLeaf : Unit = {
 
     val splitDimension = splitLeafDimension
-    Arrays.sort(entry, new EntryComparator(splitDimension))
-
-    val splitPosition = entry.length / 2
-
-    val splitValue = (
-      entry(splitPosition).key.dimension(splitDimension) +
-      entry(splitPosition + 1).key.dimension(splitDimension)
-    ) / 2d
-
-    val leftEntries = splitPosition
-    val leftEntry = new Array[Entry](Math.max(leftEntries + 1, tree.width))
-    val rightEntries = entry.length - splitPosition
-    val rightEntry = new Array[Entry](Math.max(rightEntries + 1, tree.width))
-
-    System.arraycopy(entry, 0, leftEntry, 0, leftEntries)
-    System.arraycopy(entry, splitPosition, rightEntry, 0, rightEntries)
-
-    val left = new Node(leftEntry, leftEntries, null, tree)
-    val right = new Node(rightEntry, rightEntries, null, tree)
-
-    val rootChild = new Array[Node](tree.width)
-    rootChild(0) = left
-    rootChild(1) = right
-
-    val split = new SplitHistory(splitDimension, splitValue, left, right)
-
-    if (parent eq null) {
-      tree.root = new Node(rootChild, 2, null, tree)
-      tree.root.splitHistory = split
+    if (splitDimension == -1) {
+      // TODO grow limit
+      // TODO sth goes horribly wrong with leaf growing
+      val grown = new Array[Entry](entry.length + tree.width)
+      System.arraycopy(entry, 0, grown, 0, entry.length)
+      entry = grown
+      return
     } else {
-      parent.replaceNode(this, split)
+      Arrays.sort(entry, new EntryComparator(splitDimension))
+
+      val splitPosition = entry.length / 2
+
+      val splitValue = (
+        entry(splitPosition).key.dimension(splitDimension) +
+        entry(splitPosition + 1).key.dimension(splitDimension)
+      ) / 2d
+
+      val leftEntries = splitPosition
+      val leftEntry = new Array[Entry](Math.max(leftEntries + 1, tree.width))
+      val rightEntries = entry.length - splitPosition
+      val rightEntry = new Array[Entry](Math.max(rightEntries + 1, tree.width))
+
+      System.arraycopy(entry, 0, leftEntry, 0, leftEntries)
+      System.arraycopy(entry, splitPosition, rightEntry, 0, rightEntries)
+
+      val left = new Node(leftEntry, leftEntries, null, tree)
+      val right = new Node(rightEntry, rightEntries, null, tree)
+
+      val rootChild = new Array[Node](tree.width)
+      rootChild(0) = left
+      rootChild(1) = right
+
+      val split = new SplitHistory(splitDimension, splitValue, left, right)
+
+      if (parent eq null) {
+        tree.root = new Node(rootChild, 2, null, tree)
+        tree.root.splitHistory = split
+      } else {
+        parent.replaceNode(this, split)
+      }
     }
   }
 
