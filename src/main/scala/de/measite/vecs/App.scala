@@ -2,6 +2,7 @@ package de.measite.vecs
 
 import de.measite.vecs.data.KVector
 import de.measite.vecs.xtree.Tree
+import de.measite.vecs.xtree.Entry
 
 /**
  * 
@@ -28,7 +29,7 @@ object App extends Application {
     System.out.println("(2) tree");
     var tree = new Tree(10)
     for (i <- 0 until vector.length) {
-      tree.add(vector(i), null)
+      tree.add(new Entry(vector(i), null))
       if ((i + 1) % mul == 0) {
         System.out.println("(2) " + System.currentTimeMillis + " " + ((i + 1) / mul) + "%");
       }

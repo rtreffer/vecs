@@ -191,18 +191,17 @@ class Node(
     throw new IllegalStateException
   }
 
-  def add(vector : KVector, value : Array[Byte]) : Entry = {
-    bounds += vector
+  def add(e : Entry) : Unit = {
+    bounds += e.key
     if (__entry ne null) {
       // leaf level node
-      val e = new Entry(vector, value)
       entry(entries) = e
       entries += 1
       if (entries == entry.length) { splitLeaf }
       e
     } else {
       // inner node
-      splitHistory.getNode(vector).add(vector, value)
+      splitHistory.getNode(e.key).add(e)
     }
   }
 

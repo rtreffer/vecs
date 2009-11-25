@@ -4,7 +4,7 @@ import de.measite.vecs.data.KVector
 
 class Entry(
   __key : KVector,
-  __value: Array[Byte]
+  __value: AnyRef
 ) {
 
   val key = __key

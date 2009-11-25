@@ -12,8 +12,8 @@ class Tree(
 
   val width = __width
 
-  def add(key : KVector, value : Array[Byte]) : Unit = {
-    root.add(key, value);
+  def add(entry : Entry) : Unit = {
+    root.add(entry)
   }
 
   def search(key : KVector) : Iterator[Entry] = new NNIterator(key, root)
