@@ -145,12 +145,27 @@ class KVector(
   def *(d : Double) : KVector = {
     val l = dimension.length
     val array = new Array[Double](l)
-    var i=0
+    var i = 0
     while (i < l) {
       array(i) = dimension(i) * d
       i += 1
     }
     array
+  }
+
+  def *(that : KVector) : Double = {
+    val limit = Math.min(dimension.length, that.dimension.length)
+    var result = 0d
+    var i = 0
+    while (i < limit) {
+      val l = this.dimension(i)
+      val r = that.dimension(i)
+      if ((!isNaN(l)) && (!isNaN(r))) {
+        result += l * r
+      }
+      i += 1
+    }
+    result
   }
 
   /**
@@ -222,6 +237,10 @@ class KVector(
       }
     }
     _length2
+  }
+
+  def normalize() : KVector = {
+    this * (1d / Math.sqrt(length2))
   }
 
   /**
